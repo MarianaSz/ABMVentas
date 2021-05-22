@@ -1,6 +1,6 @@
 <?php
 
-class Venta{
+class Venta {
     private $idventa;
     private $fecha;
     private $cantidad;
@@ -10,6 +10,8 @@ class Venta{
     private $total;
 
     public function __construct(){
+        $this->cantidad = 0;
+        $this->preciounitario = 0.0;
     }
     public function __get($atributo){
         return $this->$atributo;
@@ -20,21 +22,21 @@ class Venta{
 
     public function insertar(){
         $mysql = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE);
-        $sql = "INSERT INTO ventas(
-            fecha,
+        $sql = "INSERT INTO ventas (
+            fk_idcliente, 
+            fk_idproducto, 
+            fecha, 
             cantidad,
             preciounitario,
-            total,
-            fk_idcliente,
-            fk_idproducto
-            ) VALUES (
-            '" . $this->fecha . "',
-            '" . $this->cantidad . "',
-            '" . $this->preciounitario . "',
-            '" . $this->fk_idcliente . "',
-            '" . $this->fk_idproducto . "',
-            '" . $this->total . "'
-            );";
+            total
+        ) VALUES (
+            " . $this->fk_idcliente .", 
+            " . $this->fk_idproducto .",
+            '" . $this->fecha ."', 
+            " . $this->cantidad .",
+            " . $this->preciounitario .",
+            " . $this->total ."
+        );";
 
         if(!$mysql->query($sql)){
             printf("Error en la query:%s\n", $mysql->error . " " . $sql);
@@ -53,7 +55,7 @@ class Venta{
                     total = '" . $this->total . "',
                     fk_idcliente = '" . $this->fk_idcliente . "',
                     fk_idproducto = '" . $this->fk_idproducto . "'
-                    WHERE idventa = " . $this->idventa;
+                    WHERE idventa=" . $this->idventa;
 
         if(!$mysql->query($sql)){
             printf("Error en la query:%s\n", $mysql->error . " " . $sql);
@@ -133,14 +135,14 @@ class Venta{
     public function cargarFormulario($request){
         $this->idventa = isset($request["id"])? $request["id"] : "";
         $this->fecha = isset($request["txtNombre"])? $request["txtNombre"] : "";
-        $this->preciounitario = isset($request["txtPrecioUnitario"])? $request["txtPrecioUnitario"] : "";
-        $this->cantidad = isset($request["txtCantidad"])? $request["txtCantidad"]: "";
-        $this->total = isset($request["txtTotal"])? $request["txtTotal"] : "";
-        $this->fk_idcliente = isset($request["txtFkCliente"])? $request["txtFkCliente"]: "";
-        $this->fk_idproducto = isset($request["txtProducto"])? $request["txtProducto"] : "";
+        $this->fk_idcliente = isset($request["lstCliente"])? $request["lstCliente"]: "";
+        $this->fk_idproducto = isset($request["lstProducto"])? $request["lstProducto"] : "";
         if(isset($request["txtAnio"]) && isset($request["txtMes"]) && isset($request["txtDia"]) && isset($request["txtHora"])){
             $this->fecha = $request["txtAnio"] . "-" .  $request["txtMes"] . "-" .  $request["txtDia"] . "-" . $request["txtHora"];
         }
+        $this->cantidad = isset($request["txtCantidad"])? $request["txtCantidad"] : 0;
+        $this->preciounitario = isset($request["txtPrecioUnitario"])? $request["txtPrecioUnitario"] : 0.0;
+        $this->total = isset($request["txtTotal"])? $request["txtTotal"] : 0.0;
     }
 
     public function obtenerFacturacionMensual($mes){
@@ -178,7 +180,7 @@ class Venta{
     }
 
     public function obtenerTotal(){
-
+        $this->total = $this->cantidad * $this->preciounitario;
     }
 }
 ?>

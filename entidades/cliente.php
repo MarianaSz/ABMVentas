@@ -1,7 +1,7 @@
 <?php
 
 class Cliente {
-    private $idclientes;
+    private $idcliente;
     private $nombre;
     private $cuit;
     private $telefono;
@@ -18,7 +18,7 @@ class Cliente {
     }
 
     public function cargarFormulario($request){
-        $this->idclientes = isset($request["id"])? $request["id"] : "";
+        $this->idcliente = isset($request["id"])? $request["id"] : "";
         $this->nombre = isset($request["txtNombre"])? $request["txtNombre"] : "";
         $this->cuit = isset($request["txtCuit"])? $request["txtCuit"]: "";
         $this->telefono = isset($request["txtTelefono"])? $request["txtTelefono"]: "";
@@ -51,7 +51,7 @@ class Cliente {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
         //Obtiene el id generado por la inserción
-        $this->idclientes = $mysqli->insert_id;
+        $this->idcliente = $mysqli->insert_id;
         //Cierra la conexión
         $mysqli->close();
     }
@@ -64,7 +64,7 @@ class Cliente {
                 telefono = '".$this->telefono."',
                 correo = '".$this->correo."',
                 fecha_nac =  '".$this->fecha_nac."'
-                WHERE idclientes = " . $this->idclientes;
+                WHERE idcliente = " . $this->idcliente;
           
         if (!$mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -74,7 +74,7 @@ class Cliente {
 
     public function eliminar(){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE);
-        $sql = "DELETE FROM clientes WHERE idcliente = " . $this->idclientes;
+        $sql = "DELETE FROM clientes WHERE idcliente = " . $this->idcliente;
         //Ejecuta la query
         if (!$mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
@@ -84,20 +84,20 @@ class Cliente {
 
     public function obtenerPorId(){
         $mysqli = new mysqli(Config::BBDD_HOST, Config::BBDD_USUARIO, Config::BBDD_CLAVE, Config::BBDD_NOMBRE);
-        $sql = "SELECT idclientes, 
+        $sql = "SELECT idcliente, 
                         nombre, 
                         cuit, 
                         telefono, 
                         correo, 
                         fecha_nac 
                 FROM clientes
-                WHERE idclientes=" . $this->idclientes;
+                WHERE idcliente=" . $this->idcliente;
         if (!$resultado = $mysqli->query($sql)) {
             printf("Error en query: %s\n", $mysqli->error . " " . $sql);
         }
         //Convierte el resultado en un array asociativo
         if($fila = $resultado->fetch_assoc()){
-            $this->idclientes = $fila["idclientes"];
+            $this->idcliente = $fila["idcliente"];
             $this->nombre = $fila["nombre"];
             $this->cuit = $fila["cuit"];
             $this->telefono = $fila["telefono"];
@@ -105,7 +105,6 @@ class Cliente {
             $this->fecha_nac = $fila["fecha_nac"];
         }  
         $mysqli->close();
-
     }
 
   public function obtenerTodos(){
@@ -114,13 +113,13 @@ class Cliente {
         $sql = "SELECT *
             FROM
                 clientes
-            ORDER BY idclientes DESC";
+            ORDER BY idcliente DESC";
 
         $resultado = $mysql->query($sql);
         if($resultado){
             while ($fila = $resultado->fetch_assoc()) {
                 $obj = new Cliente();
-                $obj->idclientes = $fila["idclientes"];
+                $obj->idcliente = $fila["idcliente"];
                 $obj->cuit = $fila["cuit"];
                 $obj->nombre = $fila["nombre"];
                 $obj->telefono = $fila["telefono"];

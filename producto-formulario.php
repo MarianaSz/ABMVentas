@@ -53,21 +53,21 @@ include_once("header.php");
                     <select name="lstTipoProducto" id="lstTipoProducto" class="form-control selectpicker" data-live-search="true">
                         <option value="" disabled selected>Seleccionar</option>
                         <?php foreach($aTipoProductos as $tipo): ?>
-                            <?php if($tipo->idtipoproductos == $producto->fk_idtipoproducto): ?>
-                                <option selected value="<?php echo $tipo->idtipoproductos; ?>"><?php echo $tipo->nombre; ?></option>
+                            <?php if($tipo->idtipoproducto == $producto->fk_idtipoproducto): ?>
+                                <option selected value="<?php echo $tipo->idtipoproducto; ?>"><?php echo $tipo->nombre; ?></option>
                             <?php else: ?>
-                                <option value="<?php echo $tipo->idtipoproductos; ?>"><?php echo $tipo->nombre; ?></option>
+                                <option value="<?php echo $tipo->idtipoproducto; ?>"><?php echo $tipo->nombre; ?></option>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtCantidad">Cantidad:</label>
-                    <input type="text" class="form-control" name="txtCantidad" id="txtCantidad" required value="<?php echo $producto->cantidad ?>">
+                    <input type="number" class="form-control" name="txtCantidad" id="txtCantidad" required value="<?php echo $producto->cantidad ?>">
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtPrecio">Precio:</label>
-                    <input type="text" class="form-control" name="txtTelefono" id="txtTelefono" value="<?php echo $producto->precio ?>">
+                    <input type="text" class="form-control" name="txtPrecio" id="txtPrecio" value="<?php echo $producto->precio ?>">
                 </div>
                 <div class="col-12 form-group">
                     <label for="txtDescripcion">Descripción:</label></br>

@@ -87,10 +87,10 @@ include_once("header.php");
                     <select name="lstCliente" id="lstCliente" class="form-control selectpicker" data-live-search="true">
                         <option value="" disabled selected>Seleccionar</option>
                         <?php foreach($aClientes as $client): ?>
-                            <?php if($client->idclientes == $venta->fk_idcliente): ?>
-                                <option selected value="<?php echo $client->idclientes; ?>"><?php echo $client->nombre; ?></option>
+                            <?php if($client->idcliente == $venta->fk_idcliente): ?>
+                                <option selected value="<?php echo $client->idcliente; ?>"><?php echo $client->nombre; ?></option>
                             <?php else: ?>
-                                <option value="<?php echo $client->idclientes; ?>"><?php echo $client->nombre; ?></option>
+                                <option value="<?php echo $client->idcliente; ?>"><?php echo $client->nombre; ?></option>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </select>
@@ -110,7 +110,8 @@ include_once("header.php");
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtPrecioUnitario" >Precio unitario:</label>
-                    <input type="text" class="form-control" name="txtPrecioUnitario" id="txtPrecioUnitario" required disabled value="<?php echo $producto->cantidad ?>">
+                    <input type="text" class="form-control" id="txtPrecioUniCurrency" value="$<?php echo $venta->preciounitario; ?>" disabled>
+                    <input type="hidden" class="form-control" name="txtPrecioUnitario" id="txtPrecioUnitario" value="<?php echo $venta->preciounitario; ?>">
                 </div>
                 <div class="col-6 form-group">
                     <label for="txtCantidad">Cantidad:</label>

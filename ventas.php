@@ -1,10 +1,13 @@
 <?php 
 include_once "config.php";
 include_once "entidades/venta.php";
+include_once "entidades/cliente.php";
 $pg = "Ventas";
 
 $entidadVenta = new Venta();
 $aVentas = $entidadVenta->obtenerTodos();
+
+$cliente = new Cliente();
 
 include_once("header.php");
 ?>
